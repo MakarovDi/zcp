@@ -1,0 +1,151 @@
+#####################################################################
+##         ZSH Config Pack by Dmitry Makarov (aka Loki)            ##
+#####################################################################
+##                        Keybindings                              ##
+#####################################################################
+##                 Version 0.2  -  09.03.2014                      ##
+##             Absolutly free to use/modification                  ##
+#####################################################################
+## History ('*' = fix, '+' = new feature, '-' = deprecated)        ##
+##-----------------------------------------------------------------##
+## Version 0.1                                                     ##
+##   + first version                                               ##
+## Version 0.2                                                     ##
+##   * additional key-codes for windows/putty support              ##
+##                                                                 ##
+#####################################################################
+
+
+typeset -A key 	## define array 
+
+key=(
+    Home     	 "${terminfo[khome]}"
+    End      	 "${terminfo[kend]}"
+    Insert   	 "${terminfo[kich1]}"
+    Delete   	 "${terminfo[kdch1]}"
+    Up       	 "${terminfo[kcuu1]}"
+    Down     	 "${terminfo[kcud1]}"
+    Left     	 "${terminfo[kcub1]}"
+    Right    	 "${terminfo[kcuf1]}"
+    PageUp   	 "${terminfo[kpp]}"
+    PageDown 	 "${terminfo[knp]}"
+
+    CtrlLeft   "^[[1;5D"     ## [CTRL+Left]
+    CtrlRight  "^[[1;5C"     ## [CTRL+Right]
+
+    CtrlSpace  "^@"          ## [CTRL+Space]
+    CtrlSlash  "^_"          ## [CTRL+/]
+
+    NumPlus    "^[Ol"        ## [Num +]
+)
+
+## define alternative key codes (when terminfo doen't help :( )
+typeset -A key_alt
+
+key_alt=(
+    Home        "^[[1~"
+    End         "^[[4~"
+    Insert      "^[[2~"
+    Delete      "^[[3~"
+    PageUp      "^[[5~"
+    PageDown    "^[[6~"
+
+    Up          "^[OA"
+    Down        "^[OB"
+    Left        "^[OD"
+    Right       "^[OC"
+
+    CtrlLeft    "^[[D"        ## [CTRL+Left]
+    CtrlRight   "^[[C"        ## [CTRL+Right]
+
+    CtrlSpace   "^@"          ## [CTRL+Space]
+    CtrlSlash   "^_"          ## [CTRL+/]
+
+    NumPlus     "^[Ol"        ## [Num +]
+)
+## note: use [CTRL+v] for get key code
+
+
+## wrap around keybind for bind key[k] and key_alt[k] together
+keybind() {
+    bindkey "${key[$1]}"       $2
+    bindkey "${key_alt[$1]}"   $2
+}
+
+##### setup key accordingly
+
+keybind  Home      beginning-of-line
+keybind  End       end-of-line
+keybind  Delete    delete-char
+keybind  Up        up-line-or-search
+keybind  Down      down-line-or-search
+keybind  Left      backward-char
+keybind  Right     forward-char
+keybind  PageUp    history-incremental-pattern-search-backward ## interactive search in history, like [CTRL+r] 
+keybind  PageDown  history-incremental-pattern-search-forward  ##
+
+
+##### use [Insert] for pick item but stay in the menu
+
+keybind Insert     accept-and-menu-complete  ## i don't use overwrite-mode
+
+
+##### use [Num + ] for show completion menu
+
+keybind NumPlus    menu-complete
+
+
+##### [CTRL+Space] for undo
+
+keybind CtrlSpace undo
+
+
+##### use Ctrl-left-arrow and Ctrl-right-arrow for jumping to word-beginnings
+
+keybind CtrlRight  forward-word
+keybind CtrlLeft   backward-word
+
+
+##### complete word from history with menu
+
+zle -C hist-complete complete-word _generic              ## register completion widget function
+zstyle ':completion:hist-complete:*' completer _history  ## assosiate it with history completer
+bindkey "^h" hist-complete					 ## assosiate it with [CTRL+h]	
+
+
+##### use slash as word separator 
+
+slash-backward-kill-word() 
+{
+    local WORDCHARS="${WORDCHARS:s@/@}"                 ## define that shash will be word separator (only inside this function)
+    zle backward-kill-word                              ## execute [backward-kill-word] widget for delete symbols until [WORDCHARS]
+}
+zle -N slash-backward-kill-word                         ## register own widget for delete symbols until '/'
+keybind CtrlSlash slash-backward-kill-word              ## bind that widget to [CTRL+/] 
+
+
+##### search history with arrows for typed command only
+
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+    function zle-line-init () {
+        emulate -L zsh
+        printf '%s' ${terminfo[smkx]}
+    }
+    function zle-line-finish () {
+        emulate -L zsh
+        printf '%s' ${terminfo[rmkx]}
+    }
+    zle -N zle-line-init         ## replace standart widget with our zle-line-init 
+    zle -N zle-line-finish       ## replace standart widget with our zle-line-finish
+fi
+
+
+##### keys for show help information
+
+source /etc/zsh/helpers         ## import help functions (and it's widgets)
+
+bindkey "^g" help-zshglob       ## bind globbing help with [Ctrl+g] 
+bindkey "^k" help-keys          ## bind keys info with [Ctrl+k]
+bindkey "^a" help-aliases       ## bind alias info with [Ctrl+a]
+bindkey "^p" help-subroutines   ## bind subroutines help with [Ctrl+p]
+

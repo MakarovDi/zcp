@@ -1,0 +1,120 @@
+#####################################################################
+##         ZSH Config Pack by Dmitry Makarov (aka Loki)            ##
+#####################################################################
+##                        Prompt config                            ##
+#####################################################################
+##             Absolutly free to use/modification                  ##
+#####################################################################
+
+# load prompt themes and allow prompt command
+autoload -U promptinit && promptinit
+
+# allow functions in PROMPT
+setopt prompt_subst
+
+# initialize colors
+autoload -U colors && colors
+for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+    eval $COLOR='%{$fg_no_bold[${(L)COLOR}]%}'  
+    eval BOLD_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
+done
+eval RESET='%{$reset_color%}'
+
+
+# define prompt tokens
+typeset -A token
+
+token=(
+    date              '%D{%d-%m-%Y}'
+    history           '{history#%!}'
+    host              '%m'
+    jobs              '%j'
+    newline           $'\n'
+    path              '%40<..<%4~%<<'  # max deep = 4, max length=40
+    percent           '%#'
+    ret-code          '%(?..%?)'
+    ret-code-always   '%?'
+    shell-level       '%(3L.+ .)'
+    time              '%D{%H:%M:%S}'
+    user              '%n'
+)
+
+
+# surround smt with gray braces
+surround_with_brace() 
+{
+    echo $BOLD_BLACK'[ '$1$BOLD_BLACK' ] '$RESET
+}
+
+
+# show background jobs if they are
+active_jobs() 
+{
+    [[ $(jobs | wc -l) -ge 1 ]] && surround_with_brace $BOLD_YELLOW'jobs: '$token[jobs]
+}
+
+
+# show last error code if error was
+last_error()
+{
+    [[ $? -ge 1 ]] && surround_with_brace $BOLD_RED$token[ret-code]
+}
+
+# show dirty flag by default
+# you can disable it with [git-ignore-dirty] command
+# because it use [git status] which too slow on large projects
+ZGS_SHOW_GIT_DIRTY=1
+
+# get git branch and it's status (changed or not)
+function git_info() 
+{
+    branch=$(git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    
+    if [[ -n $branch ]]; then           
+      # don't show dirty flag it's too slow on large projects
+      if [[ $ZGS_SHOW_GIT_DIRTY == 1 ]]; then
+	      git diff --quiet HEAD &>/dev/null # check for changes
+      	      [[ $? == 1 ]] && dirty_flag='*'
+      fi   
+      
+	surround_with_brace $BOLD_BLACK'git:'$BOLD_CYAN$branch$BOLD_RED$dirty_flag$RESET
+    fi
+}
+
+# allow dirty flag in git_info
+function git-allow-dirty()
+{
+    export ZGS_SHOW_GIT_DIRTY=1
+}
+
+# disable dirty-flag (in big projects [git status] may be too slow)
+function git-ignore-dirty()
+{
+    export ZGS_SHOW_GIT_DIRTY=0
+}
+
+# get current screen name
+function get_screen()
+{
+    SCREEN=${${STY#*.}%.*}
+    [[ -n $SCREEN ]] && surround_with_brace $BOLD_BLACK$'sn:'$MAGENTA$SCREEN
+}
+
+# detect color for user 
+USER_COLOR=$BOLD_GREEN
+[[ $UID == 0 ]] && USER_COLOR=$BOLD_RED
+
+
+# colorize some info
+HOST_INFO=$(surround_with_brace $BOLD_BLACK$token[host]':'$USER_COLOR$token[user])
+CURRENT_DIR=$(surround_with_brace $BOLD_BLACK$token[path])
+
+
+# set prompt
+export PROMPT=$HOST_INFO'$(get_screen)''$(git_info)'$BOLD_BLACK'# '$RESET
+export RPROMPT='$(last_error)'$CURRENT_DIR'$(active_jobs)'
+
+
+# clean global scope
+unset CURRENT_DIR HOST_INFO
+
