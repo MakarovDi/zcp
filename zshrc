@@ -27,8 +27,12 @@
 ##   + use locale
 ##   +[aliases] screen support
 ##   +[aliases] mc support 
-##   * fix aliases tab-comletion 
+##   * fixed aliases tab-comletion 
 ##   - separated history
+##
+## Version 0.4 - [23.03.2014]
+##   + installation system
+##   *[keyboard] fixed mc Ctrl+O
 #####################################################################
 
 ZSH_CONFIG_PACK_DIR=/etc/zsh/
@@ -113,7 +117,7 @@ unsetopt complete_aliases
 #####################################################################
 
 # set nano as default editor
-export EDITOR=nano
+export EDITOR=`which nano`
 
 # set less as default pager
 export PAGER=${PAGER:-less}

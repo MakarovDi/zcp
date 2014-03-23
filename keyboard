@@ -139,4 +139,3 @@ bindkey "^g" help-zshglob       ## bind globbing help with [Ctrl+g]
 bindkey "^k" help-keys          ## bind keys info with [Ctrl+k]
 bindkey "^a" help-aliases       ## bind alias info with [Ctrl+a]
 bindkey "^p" help-subroutines   ## bind subroutines help with [Ctrl+p]
-

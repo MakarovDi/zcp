@@ -112,7 +112,15 @@ CURRENT_DIR=$(surround_with_brace $BOLD_BLACK$token[path])
 
 # set prompt
 export PROMPT=$HOST_INFO'$(get_screen)''$(git_info)'$BOLD_BLACK'# '$RESET
-export RPROMPT='$(last_error)'$CURRENT_DIR'$(active_jobs)'
+
+# if mc running don't show RPROMPT and set Ctlr+H to backward-delete-word 
+# because aster Ctrl+O mc use Ctrl+H for clear prompt line
+if [[ -z $MC_SID ]]; then
+  export RPROMPT='$(last_error)'$CURRENT_DIR'$(active_jobs)'
+else
+  export RPROMPT=''
+  bindkey '^H' backward-delete-word
+fi
 
 
 # clean global scope

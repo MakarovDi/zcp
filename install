@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# define package files
+files=(
+  zshrc
+  completions
+  prompt
+  keyboard
+  aliases
+  subroutines
+  helpers
+)
+
+# path to install
+ZSH_CONFIG_PATH=/etc/zsh/
+
+# install files
+for file in ${files[@]}; do
+  cp --backup=numbered ./$file $ZSH_CONFIG_PATH
+  [[ $? -ne 0 ]] && echo "[Error]: can't copy file $file to $ZSH_CONFIG_PATH" && exit 1
+done
+
+echo "[Success]: have fun"
