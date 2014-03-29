@@ -1,6 +1,6 @@
 #####################################################################
 ##         ZSH Config Pack by Dmitry Makarov (aka Loki)            ##
-##                       Version 0.4                               ##
+##                       Version 0.5                               ##
 #####################################################################
 ## Config is separated in 5 parts:                                 ##
 ##   1. completions  - configure autocompletion features           ##
@@ -34,11 +34,15 @@
 ##   + installation system                                         ##
 ##   *[keyboard] fixed mc Ctrl+O                                   ##
 ##                                                                 ##
-## Version 0.5 - [--.--.2014]                                      ## 
-##   +[aliases] mdadm support                                      ##
+## Version 0.5 - [29.03.2014]                                      ## 
+##   +[aliases] mdadm support (lsmd, monmd, mdetails)              ##
+##   +[subroutines] mdadm support (md-*)                           ##
 ##   +[aliases] function for reload config (zcp-reload)            ##
+##   +[aliases] functions for manage dirty flag in prompt          ##
+##   -[prompt ] functions for manage dirty flag in prompt          ##
 ##   +[install] autoreload config (use . ./install)                ##
-##
+##   +[install] option (--clean or -c) for suppress backup         ##
+##   +[aliases] systemctl (sctl)                                   ##
 #####################################################################
 
 ZSH_CONFIG_PACK_DIR=/etc/zsh/
@@ -252,4 +256,11 @@ source ${ZSH_CONFIG_PACK_DIR}/prompt
 
 # load aliases
 source ${ZSH_CONFIG_PACK_DIR}/aliases
+
+#####################################################################
+## Subroutines                                                     ##
+#####################################################################
+
+# load subroutines
+source ${ZSH_CONFIG_PACK_DIR}/subroutines
 

@@ -81,18 +81,6 @@ function git_info()
     fi
 }
 
-# allow dirty flag in git_info
-function git-allow-dirty()
-{
-    export ZCP_SHOW_GIT_DIRTY=1
-}
-
-# disable dirty-flag (in big projects [git status] may be too slow)
-function git-ignore-dirty()
-{
-    export ZCP_SHOW_GIT_DIRTY=0
-}
-
 # get current screen name
 function get_screen()
 {

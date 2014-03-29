@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CP_BACKUP=--backup=numbered
+if [[ $1 = "--clean" || $1 = '-c' ]]; then
+  unset CP_BACKUP
+else
+  echo '[Info]: backup of previous config will be created'
+  echo '[Hint]: use --clean (or -c) option for suppress backup'
+fi
+
 # define package files
 files=(
   zshrc
@@ -16,7 +24,7 @@ ZSH_CONFIG_PATH=/etc/zsh/
 
 # install files
 for file in ${files[@]}; do
-  cp --backup=numbered ./$file $ZSH_CONFIG_PATH
+  cp $CP_BACKUP ./$file $ZSH_CONFIG_PATH
   [[ $? -ne 0 ]] && echo "[Error]: can't copy file $file to $ZSH_CONFIG_PATH" && exit 1
 done
 
@@ -28,6 +36,8 @@ if [[ -n $ZSH_VERSION ]]; then
   . /etc/zsh/zshrc && echo "[Success]: config reloaded"
 else
   echo "[Hint]: run '. ./install' for reload config automatically"
-  echo "[Hint]: run 'zcp-reload' for reload zsh config"
+  echo "[Hint]: use 'zcp-reload' for reload zsh config"
 fi
 
+# cleanups
+unset CP_BACKUP ZSH_CONFIG_PATH

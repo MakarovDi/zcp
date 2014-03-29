@@ -5,3 +5,23 @@
 #####################################################################
 ##             Absolutly free to use/modification                  ##
 #####################################################################
+
+
+#### mdadm 
+
+function md-suspend()
+{
+   [[ -n $1 ]] && echo idle > /sys/block/${1}/md/sync_action || echo "error: mdX device is not specified"
+}
+
+function md-check()
+{
+   [[ -n $1 ]] && echo check > /sys/block/${1}/md/sync_action || echo "error: mdX device is not specified"
+}
+
+fucntion md-mismatches()
+{
+   [[ -n $1 ]] && cat /sys/block/${1}/md/mismatch_cnt || echo "error: mdX device is not specified"
+}
+
+

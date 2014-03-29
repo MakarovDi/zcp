@@ -30,7 +30,13 @@ alias g='grep'
 
 alias ...='cd ../../'
 
+alias sctl='systemctl'
+
+#### mc
+
 alias mc='TERM=xterm-256color mc -S xoria256'
+alias mca='mc -a'
+
 
 #### mdadm
 
@@ -38,10 +44,12 @@ alias lsmd='cat /proc/mdstat'
 alias mdetails='mdadm --misc --detail'
 alias monmd='watch -t "cat /proc/mdstat"'
 
+
 #### screen
 
 alias news='screen -S'
 alias attach='screen -r'
+
 
 ##### listing stuff
 
@@ -77,6 +85,7 @@ alias ll="ls -lh"
 
 # show screens
 alias lss="screen -ls"
+
 
 #### pacman/yaourt
 
@@ -139,8 +148,11 @@ alias gits="git status"
 # draw graph
 alias gitg='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'
 
+# allow dirty flag in git_info
+alias git-allow-dirty='export ZCP_SHOW_GIT_DIRTY=1'
 
-
+# disable dirty-flag (in big projects [git status] may be too slow)
+alias git-ignore-dirty='export ZCP_SHOW_GIT_DIRTY=0'
 
 
 
