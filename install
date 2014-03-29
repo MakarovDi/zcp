@@ -20,4 +20,14 @@ for file in ${files[@]}; do
   [[ $? -ne 0 ]] && echo "[Error]: can't copy file $file to $ZSH_CONFIG_PATH" && exit 1
 done
 
-echo "[Success]: have fun"
+echo "[Success]: installation complete"
+
+# we work inside current zsh
+if [[ -n $ZSH_VERSION ]]; then
+  # reload config
+  . /etc/zsh/zshrc && echo "[Success]: config reloaded"
+else
+  echo "[Hint]: run '. ./install' for reload config automatically"
+  echo "[Hint]: run 'zcp-reload' for reload zsh config"
+fi
+

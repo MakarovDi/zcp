@@ -36,6 +36,8 @@
 ##                                                                 ##
 ## Version 0.5 - [--.--.2014]                                      ## 
 ##   +[aliases] mdadm support                                      ##
+##   +[aliases] function for reload config (zcp-reload)            ##
+##   +[install] autoreload config (use . ./install)                ##
 ##
 #####################################################################
 
