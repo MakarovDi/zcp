@@ -29,6 +29,12 @@ alias ...='cd ../../'
 
 alias mc='TERM=xterm-256color mc -S xoria256'
 
+#### mdadm
+
+alias lsmd='cat /proc/mdstat'
+alias mdetails='mdadm --misc --detail'
+alias mdmon='watch -t "cat /proc/mdstat"'
+
 #### screen
 
 alias news='screen -S'

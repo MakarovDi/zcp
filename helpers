@@ -71,7 +71,7 @@ help-keys()
   [Ctrl+/]          - delete symbols until slash
   [Ctrl+w]          - delete symbols until space
   [Ctrl+r]          - incremental history search
-  [Ctrl+z]          - suspend job
+  [Ctrl+z]          - suspend job (send to background)
   [Ctrl+A, d]       - detach from screen
 "
 }

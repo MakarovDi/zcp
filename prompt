@@ -50,7 +50,7 @@ surround_with_brace()
 # show background jobs if they are
 active_jobs() 
 {
-    [[ $(jobs | wc -l) -ge 1 ]] && surround_with_brace $BOLD_YELLOW'jobs: '$token[jobs]
+    [[ $(jobs | wc -l) -ge 1 ]] && surround_with_brace $BOLD_YELLOW'jb: '$token[jobs]
 }
 
 
@@ -63,7 +63,7 @@ last_error()
 # show dirty flag by default
 # you can disable it with [git-ignore-dirty] command
 # because it use [git status] which too slow on large projects
-ZGS_SHOW_GIT_DIRTY=1
+ZCP_SHOW_GIT_DIRTY=1
 
 # get git branch and it's status (changed or not)
 function git_info() 
@@ -72,7 +72,7 @@ function git_info()
     
     if [[ -n $branch ]]; then           
       # don't show dirty flag it's too slow on large projects
-      if [[ $ZGS_SHOW_GIT_DIRTY == 1 ]]; then
+      if [[ $ZCP_SHOW_GIT_DIRTY == 1 ]]; then
 	      git diff --quiet HEAD &>/dev/null # check for changes
       	      [[ $? == 1 ]] && dirty_flag='*'
       fi   
@@ -84,13 +84,13 @@ function git_info()
 # allow dirty flag in git_info
 function git-allow-dirty()
 {
-    export ZGS_SHOW_GIT_DIRTY=1
+    export ZCP_SHOW_GIT_DIRTY=1
 }
 
 # disable dirty-flag (in big projects [git status] may be too slow)
 function git-ignore-dirty()
 {
-    export ZGS_SHOW_GIT_DIRTY=0
+    export ZCP_SHOW_GIT_DIRTY=0
 }
 
 # get current screen name

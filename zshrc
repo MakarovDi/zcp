@@ -1,6 +1,6 @@
 #####################################################################
 ##         ZSH Config Pack by Dmitry Makarov (aka Loki)            ##
-##                       Version 0.3                               ##
+##                       Version 0.4                               ##
 #####################################################################
 ## Config is separated in 5 parts:                                 ##
 ##   1. completions  - configure autocompletion features           ##
@@ -22,17 +22,21 @@
 ##   +[completion] command not found handles with pkgfile          ##
 ##   + allow tab-completion for aliases                            ##  
 ##                                                                 ##
-## Version 0.3 - [22.03.2014]
-##   + use 256 color in user terminal
-##   + use locale
-##   +[aliases] screen support
-##   +[aliases] mc support 
-##   * fixed aliases tab-comletion 
-##   - separated history
+## Version 0.3 - [22.03.2014]                                      ##
+##   + use 256 color in user terminal                              ##
+##   + use locale                                                  ##
+##   +[aliases] screen support                                     ##
+##   +[aliases] mc support                                         ##
+##   * fixed aliases tab-comletion                                 ##
+##   - separated history                                           ##
+##                                                                 ##
+## Version 0.4 - [23.03.2014]                                      ##
+##   + installation system                                         ##
+##   *[keyboard] fixed mc Ctrl+O                                   ##
+##                                                                 ##
+## Version 0.5 - [--.--.2014]                                      ## 
+##   +[aliases] mdadm support                                      ##
 ##
-## Version 0.4 - [23.03.2014]
-##   + installation system
-##   *[keyboard] fixed mc Ctrl+O
 #####################################################################
 
 ZSH_CONFIG_PACK_DIR=/etc/zsh/
