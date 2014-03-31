@@ -46,8 +46,8 @@ key_alt=(
     Left        "^[OD"
     Right       "^[OC"
 
-    CtrlLeft    "^[[D"        ## [CTRL+Left]
-    CtrlRight   "^[[C"        ## [CTRL+Right]
+    CtrlLeft    "^[[1;5D"        ## [CTRL+Left]
+    CtrlRight   "^[[1;5C"        ## [CTRL+Right]
 
     CtrlSpace   "^@"          ## [CTRL+Space]
     CtrlSlash   "^_"          ## [CTRL+/]

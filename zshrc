@@ -43,6 +43,9 @@
 ##   +[install] autoreload config (use . ./install)                ##
 ##   +[install] option (--clean or -c) for suppress backup         ##
 ##   +[aliases] systemctl (sctl)                                   ##
+##   *[keyboard] temporary keyboadr fix:                           ##
+##      ^[[D - sometimes = left, sometimes = ctrl+left             ##
+##                                                                 ##
 #####################################################################
 
 ZSH_CONFIG_PACK_DIR=/etc/zsh/
@@ -203,6 +206,7 @@ ZSH_COMPDUMP=${ZSHDIR}/.zcompdump
 ## Colorize programs                                               ##
 #####################################################################
 
+# set 256-colors terminal for users
 if [[ $EUID != 0 ]]; then
   case "$TERM" in
     'xterm')  export TERM=xterm-256color;;
@@ -212,10 +216,10 @@ if [[ $EUID != 0 ]]; then
 fi
 
 # load colors for different file types 
-eval $(dircolors -b)
+eval $(dircolors -b) # it initialize LS_COLORS
 
+# allow colors in ls and grep
 alias ls='ls --color=auto'
-
 alias grep='grep --color=auto'
 
 # set colors in less (check it in [man] command)
