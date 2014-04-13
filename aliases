@@ -32,6 +32,9 @@ alias ...='cd ../../'
 
 alias sctl='systemctl'
 
+# allow to use aliases after sudo
+alias sudo='sudo '
+
 #### mc
 
 alias mc='TERM=xterm-256color mc -S xoria256'
