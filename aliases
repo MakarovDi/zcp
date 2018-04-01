@@ -6,8 +6,17 @@
 ##             Absolutly free to use/modification                  ##
 #####################################################################
 
-# check for user, if not running as root set $SUDO to sudo
-(( EUID != 0 )) && SUDO='sudo' || SUDO=''
+
+# configuring sudo
+if command -v sudo 2>/dev/null; then
+	# check for user, if not running as root set $SUDO to sudo
+	(( EUID != 0 )) && SUDO='sudo'
+
+	# allow to use aliases after sudo
+	alias sudo='sudo '
+else
+    SUDO=''
+fi
 
 ############### aliases ##########################
 
@@ -32,8 +41,7 @@ alias ...='cd ../../'
 
 alias sctl='systemctl'
 
-# allow to use aliases after sudo
-alias sudo='sudo '
+
 
 #### mc
 
